@@ -2,7 +2,7 @@ using IOTEC_ACME;
 
 namespace TestingProject
 {
-    public class UnitTest1
+    public class TestSalary
     {
         [Fact]
         public void GetHourSalary_String_First_Empoyee_ReturnsString()

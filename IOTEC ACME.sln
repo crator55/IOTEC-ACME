@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTEC ACME", "IOTEC ACME\IOTEC ACME.csproj", "{D31E30A0-26F9-4106-BA1E-F22ACCFC51BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingProject", "TestingProject\TestingProject.csproj", "{20355D6C-AFD1-42DA-A47E-BA19C3D42521}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingIOTEC ACME", "TestingProject\TestingIOTEC ACME.csproj", "{20355D6C-AFD1-42DA-A47E-BA19C3D42521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
