@@ -30,7 +30,7 @@ namespace IOTEC_ACME
                         var isDayWeek = Days.GetlistDaysWeeks().Contains(day);
                         totalSalary += GetSalaryDays(isDayWeek, GetStartTime(item3), GetEndTime(item3));
                     }
-                    result.Add($"The amount to pay {name} is: {Math.Round(totalSalary, 2)} USD");
+                    result.Add($"The amount to pay {name} is: {totalSalary} USD");
                 }
                 return result;
             }
@@ -79,11 +79,11 @@ namespace IOTEC_ACME
             bool extraSalary = startTime >= workingHours.StartExtra && endTime <= workingHours.EndExtra;
             bool nightSalary = startTime >= workingHours.StartNight && endTime <= workingHours.EndNight;
             bool morethanEight = (startTime >= workingHours.StartNight && startTime <= workingHours.EndNight) &&
-                (endTime >= workingHours.StartNormal && endTime <= workingHours.EndNormal);
+                (endTime >= workingHours.StartExtra && endTime <= workingHours.EndExtra);
             bool normalAndNight = (startTime >= workingHours.StartNight && startTime <= workingHours.EndNight) &&
                 (endTime >= workingHours.StartNormal && endTime <= workingHours.EndNormal);
             bool normalAndExtra = (startTime >= workingHours.StartNormal && startTime <= workingHours.EndNormal) &&
-                (endTime >= workingHours.StartExtra && endTime <= workingHours.StartExtra);
+                (endTime >= workingHours.StartExtra && endTime <= workingHours.EndExtra);
             if (isDayWeek && normalSalary)
             {
                 elapsed = endTime.Subtract(startTime);
@@ -162,7 +162,7 @@ namespace IOTEC_ACME
                 elapsed = workingHours.EndExtra.Subtract(endTime);
                 salary += elapsed.TotalHours * 15;
             }
-            return salary;
+            return Math.Round(salary,2);
         }
         public string GetNameFromFile(string stringFile)
         {
