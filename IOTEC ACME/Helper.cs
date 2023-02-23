@@ -8,6 +8,6 @@ namespace IOTEC_ACME
 {
     public class Helper
     {
-        public string Path { get; set; } = "C:\\Users\\rapto\\Documents\\ACME-FILE.txt";
+        public static string Path { get; set; } = "C:\\Users\\rapto\\Documents\\ACME-FILE.txt";
     }
 }

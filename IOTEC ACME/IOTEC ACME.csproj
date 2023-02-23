@@ -39,11 +39,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acme.cs" />
-    <Compile Include="Days.cs" />
+    <Compile Include="Salary\Salary.cs" />
+    <Compile Include="Days\Days.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="IAcme.cs" />
-    <Compile Include="IDays.cs" />
+    <Compile Include="Salary\ISalary.cs" />
+    <Compile Include="Days\IDays.cs" />
     <Compile Include="WorkingHours.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

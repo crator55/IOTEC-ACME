@@ -5,32 +5,54 @@ using System.Linq;
 
 namespace IOTEC_ACME
 {
-    public class Acme : IAcme
+    public class Salary : ISalary
     {
-        private Helper Helper { get; set; } = new Helper();
-
-
+        #region Helpers
+        private readonly Helper Helper = new Helper();
+        private readonly Days Days = new Days();
+        #endregion
         public List<string> GetHourSalary()
         {
-
-            string contents = File.ReadAllText(Helper.Path);
-            var allData = contents.Replace("\r", "").Split('\n');
-            List<string> result = new List<string>();
-            foreach (var item in allData)
+            try
             {
-                var data = item.Split(',').ToList();
-                var name = GetNameFromFile(data[0]);
-                double totalSalary = 0;
-                Days days = new Days();
-                foreach (string item3 in GetDataFormatedHours(data))
+                string contents = GetDataFromFile(Helper.Path);
+                var allData = contents.Replace("\r", "").Split('\n');
+                List<string> result = new List<string>();
+
+                foreach (var item in allData)
                 {
-                    var day = GetDayOflabor(item3);
-                    var isDayWeek = days.GetlistDaysWeeks().Contains(day);
-                    totalSalary += GetSalaryDays(isDayWeek, GetStartTime(item3), GetEndTime(item3));
+                    var data = item.Split(',').ToList();
+                    var name = GetNameFromFile(data[0]);
+                    double totalSalary = 0;
+                    foreach (string item3 in GetDataFormatedHours(data))
+                    {
+                        var day = GetDayOflabor(item3);
+                        var isDayWeek = Days.GetlistDaysWeeks().Contains(day);
+                        totalSalary += GetSalaryDays(isDayWeek, GetStartTime(item3), GetEndTime(item3));
+                    }
+                    result.Add($"The amount to pay {name} is: {Math.Round(totalSalary, 2)} USD");
                 }
-                result.Add($"The amount to pay {name} is: {totalSalary} USD");
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+        }
+        public string GetDataFromFile(string Path)
+        {
+            try
+            {
+                return File.ReadAllText(Path);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
         private List<string> GetDataFormatedHours(List<string> Data)
         {

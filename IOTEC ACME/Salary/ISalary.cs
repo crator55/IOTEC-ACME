@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOTEC_ACME
 {
-    public  interface IAcme
+    public  interface ISalary
     {
         List<string> GetHourSalary();
     }
