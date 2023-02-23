@@ -117,7 +117,7 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetNameFromFile()
+        public void GetNameFromFile_Name_ReturnString()
         {
             Salary acme = new();
             var response = acme.GetNameFromFile("ASTRID=MO10:00-12:00");
@@ -125,7 +125,7 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetDayOflabor()
+        public void GetDayOflabor_Monday_ReturnString()
         {
             Salary acme = new();
             var response = acme.GetDayOflabor("MO10:00-12:00");
@@ -133,7 +133,7 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetStartTime()
+        public void GetStartTime_10AM_ReturnTimeSpan()
         {
             Salary acme = new();
             var response = acme.GetStartTime("MO10:00-12:00");
@@ -141,7 +141,7 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetEndTime()
+        public void GetEndTime_12PM_ReturnTimeSpan()
         {
             Salary acme = new();
             var response = acme.GetEndTime("MO10:00-12:00");
@@ -149,7 +149,7 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetDataFromFile()
+        public void GetDataFromFile_GetData_ReturnString()
         {
             Salary acme = new();
             var response = acme.GetDataFromFile(Helper.Path);
