@@ -1,10 +1,9 @@
-﻿using System;
+﻿using IOTEC_ACME.HelperNameSpace;
+using IOTEC_ACME.RatesNameSpace;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using IOTEC_ACME.HelperNameSpace;
-using IOTEC_ACME.RatesNameSpace;
-using IOTEC_ACME.WorkingHoursNameSpace;
 namespace IOTEC_ACME.SalaryNameSpace
 {
     public class Salary : Rates, ISalary
