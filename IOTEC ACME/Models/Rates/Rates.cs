@@ -1,4 +1,5 @@
-﻿namespace IOTEC_ACME.RatesNameSpace
+﻿using IOTEC_ACME.WorkingHoursNameSpace;
+namespace IOTEC_ACME.RatesNameSpace
 {
     public class Rates:WorkingHours,IRates
     {

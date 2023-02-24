@@ -39,15 +39,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Rates\IRates.cs" />
-    <Compile Include="Rates\Rates.cs" />
-    <Compile Include="WorkinHours\IWorkingHours.cs" />
+    <Compile Include="Models\Rates\IRates.cs" />
+    <Compile Include="Models\Rates\Rates.cs" />
+    <Compile Include="Models\WorkinHours\IWorkingHours.cs" />
     <Compile Include="Salary\Salary.cs" />
-    <Compile Include="Days\Days.cs" />
+    <Compile Include="Models\Days\Days.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="Salary\ISalary.cs" />
-    <Compile Include="Days\IDays.cs" />
-    <Compile Include="WorkinHours\WorkingHours.cs" />
+    <Compile Include="Models\Days\IDays.cs" />
+    <Compile Include="Models\WorkinHours\WorkingHours.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

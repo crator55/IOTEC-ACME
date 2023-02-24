@@ -1,6 +1,6 @@
 ﻿using System;
 using IOTEC_ACME.DaysNameSpace;
-namespace IOTEC_ACME
+namespace IOTEC_ACME.WorkingHoursNameSpace
 {
     public class WorkingHours:Days,IWorkingHours
     {
