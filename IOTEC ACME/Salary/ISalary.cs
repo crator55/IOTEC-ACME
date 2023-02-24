@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IOTEC_ACME
+namespace IOTEC_ACME.SalaryNameSpace
 {
     public interface ISalary
     {

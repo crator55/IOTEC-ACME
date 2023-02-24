@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace IOTEC_ACME
+﻿using System.Collections.Generic;
+namespace IOTEC_ACME.DaysNameSpace
 {
-    public class Days:WorkingHours,IDays
+    public class Days : IDays
     {
         public List<string> GetlistDaysWeeks()
         {

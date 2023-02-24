@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-
-namespace IOTEC_ACME
+using IOTEC_ACME.HelperNameSpace;
+using IOTEC_ACME.RatesNameSpace;
+using IOTEC_ACME.WorkingHoursNameSpace;
+namespace IOTEC_ACME.SalaryNameSpace
 {
-    public class Salary : Days,ISalary
+    public class Salary : Rates, ISalary
     {
-        private readonly Helper Helper= new Helper();
+        private readonly Helper Helper = new Helper();
         public List<string> GetHourSalary()
         {
             try
             {
                 var allData = GetDataFromFile(Helper.Path);
                 List<string> result = new List<string>();
-                if (allData.Length>=5)
+                if (allData.Length >= 5)
                 {
                     foreach (var item in allData)
                     {
@@ -37,15 +38,15 @@ namespace IOTEC_ACME
                     result.Add(Helper.LessThan5);
                     return result;
                 }
-               
-               
+
+
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
-           
+
         }
         public string[] GetDataFromFile(string Path)
         {
@@ -58,7 +59,7 @@ namespace IOTEC_ACME
 
                 throw ex;
             }
-           
+
         }
         private List<string> GetDataFormatedHours(List<string> Data)
         {
@@ -92,82 +93,82 @@ namespace IOTEC_ACME
             if (isDayWeek && normalSalary)
             {
                 elapsed = endTime.Subtract(startTime);
-                salary += elapsed.TotalHours * 15;
+                salary += elapsed.TotalHours * GetNormalWeekDayRate();
             }
             if (!isDayWeek && normalSalary)
             {
                 elapsed = endTime.Subtract(startTime);
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetNormalWeekendDayRate();
             }
             if (isDayWeek && extraSalary)
             {
                 elapsed = endTime.Subtract(startTime);
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetExtraWeekDayRate();
             }
             if (!isDayWeek && extraSalary)
             {
                 elapsed = endTime.Subtract(startTime);
-                salary += elapsed.TotalHours * 25;
+                salary += elapsed.TotalHours * GetExtraWeekendDayRate();
             }
             if (isDayWeek && nightSalary)
             {
                 elapsed = endTime.Subtract(startTime);
-                salary += elapsed.TotalHours * 25;
+                salary += elapsed.TotalHours * GetNightWeekDayRate();
             }
             if (!isDayWeek && nightSalary)
             {
                 elapsed = endTime.Subtract(startTime);
-                salary += elapsed.TotalHours * 30;
+                salary += elapsed.TotalHours * GetNightWeekendDayRate();
             }
             if (isDayWeek && morethanEight)
             {
                 elapsed = GetEndNight().Subtract(startTime);
-                salary += elapsed.TotalHours * 25;
+                salary += elapsed.TotalHours * GetNightWeekDayRate();
                 elapsed = GetEndNormal().Subtract(GetStartNormal());
-                salary += elapsed.TotalHours * 15;
+                salary += elapsed.TotalHours * GetNormalWeekDayRate();
                 elapsed = GetEndExtra().Subtract(endTime);
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetExtraWeekDayRate();
             }
             if (!isDayWeek && morethanEight)
             {
                 elapsed = GetEndNight().Subtract(startTime);
-                salary += elapsed.TotalHours * 30;
+                salary += elapsed.TotalHours * GetNightWeekendDayRate();
                 elapsed = GetEndNormal().Subtract(GetStartNormal());
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetNormalWeekendDayRate();
                 elapsed = GetEndExtra().Subtract(endTime);
-                salary += elapsed.TotalHours * 25;
+                salary += elapsed.TotalHours * GetExtraWeekendDayRate();
             }
             if (isDayWeek && normalAndNight)
             {
                 elapsed = GetEndNight().Subtract(startTime);
-                salary += elapsed.TotalHours * 25;
+                salary += elapsed.TotalHours * GetNightWeekDayRate();
                 elapsed = GetEndNormal().Subtract(endTime);
-                salary += elapsed.TotalHours * 15;
+                salary += elapsed.TotalHours * GetNormalWeekDayRate();
 
             }
             if (!isDayWeek && normalAndNight)
             {
                 elapsed = GetEndNight().Subtract(startTime);
-                salary += elapsed.TotalHours * 30;
+                salary += elapsed.TotalHours * GetNightWeekendDayRate();
                 elapsed = GetEndNormal().Subtract(endTime);
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetNormalWeekendDayRate();
 
             }
             if (isDayWeek && normalAndExtra)
             {
                 elapsed = GetEndNormal().Subtract(startTime);
-                salary += elapsed.TotalHours * 15;
+                salary += elapsed.TotalHours * GetNormalWeekDayRate();
                 elapsed = GetEndExtra().Subtract(endTime);
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetExtraWeekDayRate();
             }
             if (!isDayWeek && normalAndExtra)
             {
                 elapsed = GetEndNormal().Subtract(startTime);
-                salary += elapsed.TotalHours * 20;
+                salary += elapsed.TotalHours * GetNormalWeekendDayRate();
                 elapsed = GetEndExtra().Subtract(endTime);
-                salary += elapsed.TotalHours * 15;
+                salary += elapsed.TotalHours * GetExtraWeekendDayRate();
             }
-            return Math.Round(salary,2);
+            return Math.Round(salary, 2);
         }
         public string GetNameFromFile(string stringFile)
         {

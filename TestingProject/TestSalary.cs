@@ -1,4 +1,5 @@
-using IOTEC_ACME;
+using IOTEC_ACME.SalaryNameSpace;
+using IOTEC_ACME.HelperNameSpace;
 
 namespace TestingProject
 {
@@ -102,11 +103,11 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetSalaryDays_NormalAndExtra_WeekendDa_ReturnsTimeSpan()
+        public void GetSalaryDays_NormalAndExtra_WeekendDay_ReturnsTimeSpan()
         {
             Salary acme = new();
             var response = acme.GetSalaryDays(false, TimeSpan.Parse("10:00"), TimeSpan.Parse("23:00"));
-            Assert.Equal(175, response);
+            Assert.Equal(184.99, response);
         }
 
         [Fact]

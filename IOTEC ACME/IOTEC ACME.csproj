@@ -39,6 +39,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Rates\IRates.cs" />
+    <Compile Include="Rates\Rates.cs" />
     <Compile Include="WorkinHours\IWorkingHours.cs" />
     <Compile Include="Salary\Salary.cs" />
     <Compile Include="Days\Days.cs" />
