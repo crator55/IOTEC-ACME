@@ -2,37 +2,43 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 
 namespace IOTEC_ACME
 {
-    public class Salary : ISalary
+    public class Salary : Days,ISalary
     {
-        #region Helpers
-        private readonly Helper Helper = new Helper();
-        private readonly Days Days = new Days();
-        #endregion
+        private readonly Helper Helper= new Helper();
         public List<string> GetHourSalary()
         {
             try
             {
-                string contents = GetDataFromFile(Helper.Path);
-                var allData = contents.Replace("\r", "").Split('\n');
+                var allData = GetDataFromFile(Helper.Path);
                 List<string> result = new List<string>();
-
-                foreach (var item in allData)
+                if (allData.Length>=5)
                 {
-                    var data = item.Split(',').ToList();
-                    var name = GetNameFromFile(data[0]);
-                    double totalSalary = 0;
-                    foreach (string item3 in GetDataFormatedHours(data))
+                    foreach (var item in allData)
                     {
-                        var day = GetDayOflabor(item3);
-                        var isDayWeek = Days.GetlistDaysWeeks().Contains(day);
-                        totalSalary += GetSalaryDays(isDayWeek, GetStartTime(item3), GetEndTime(item3));
+                        var data = item.Split(',').ToList();
+                        var name = GetNameFromFile(data[0]);
+                        double totalSalary = 0;
+                        foreach (string item3 in GetDataFormatedHours(data))
+                        {
+                            var day = GetDayOflabor(item3);
+                            var isDayWeek = GetlistDaysWeeks().Contains(day);
+                            totalSalary += GetSalaryDays(isDayWeek, GetStartTime(item3), GetEndTime(item3));
+                        }
+                        result.Add($"The amount to pay {name} is: {totalSalary} USD");
                     }
-                    result.Add($"The amount to pay {name} is: {totalSalary} USD");
+                    return result;
                 }
-                return result;
+                else
+                {
+                    result.Add(Helper.LessThan5);
+                    return result;
+                }
+               
+               
             }
             catch (Exception ex)
             {
@@ -41,11 +47,11 @@ namespace IOTEC_ACME
             }
            
         }
-        public string GetDataFromFile(string Path)
+        public string[] GetDataFromFile(string Path)
         {
             try
             {
-                return File.ReadAllText(Path);
+                return File.ReadAllText(Path).Replace("\r", "").Split('\n');
             }
             catch (Exception ex)
             {
@@ -72,18 +78,17 @@ namespace IOTEC_ACME
         }
         public double GetSalaryDays(bool isDayWeek, TimeSpan startTime, TimeSpan endTime)
         {
-            WorkingHours workingHours = new WorkingHours();
             double salary = 0;
             TimeSpan elapsed;
-            bool normalSalary = startTime >= workingHours.StartNormal && endTime <= workingHours.EndNormal;
-            bool extraSalary = startTime >= workingHours.StartExtra && endTime <= workingHours.EndExtra;
-            bool nightSalary = startTime >= workingHours.StartNight && endTime <= workingHours.EndNight;
-            bool morethanEight = (startTime >= workingHours.StartNight && startTime <= workingHours.EndNight) &&
-                (endTime >= workingHours.StartExtra && endTime <= workingHours.EndExtra);
-            bool normalAndNight = (startTime >= workingHours.StartNight && startTime <= workingHours.EndNight) &&
-                (endTime >= workingHours.StartNormal && endTime <= workingHours.EndNormal);
-            bool normalAndExtra = (startTime >= workingHours.StartNormal && startTime <= workingHours.EndNormal) &&
-                (endTime >= workingHours.StartExtra && endTime <= workingHours.EndExtra);
+            bool normalSalary = startTime >= GetStartNormal() && endTime <= GetEndNormal();
+            bool extraSalary = startTime >= GetStartExtra() && endTime <= GetEndExtra();
+            bool nightSalary = startTime >= GetStartNight() && endTime <= GetEndNight();
+            bool morethanEight = (startTime >= GetStartNight() && startTime <= GetEndNight()) &&
+                (endTime >= GetStartExtra() && endTime <= GetEndExtra());
+            bool normalAndNight = (startTime >= GetStartNight() && startTime <= GetEndNight()) &&
+                (endTime >= GetStartNormal() && endTime <= GetEndNormal());
+            bool normalAndExtra = (startTime >= GetStartNormal() && startTime <= GetEndNormal()) &&
+                (endTime >= GetStartExtra() && endTime <= GetEndExtra());
             if (isDayWeek && normalSalary)
             {
                 elapsed = endTime.Subtract(startTime);
@@ -116,50 +121,50 @@ namespace IOTEC_ACME
             }
             if (isDayWeek && morethanEight)
             {
-                elapsed = workingHours.EndNight.Subtract(startTime);
+                elapsed = GetEndNight().Subtract(startTime);
                 salary += elapsed.TotalHours * 25;
-                elapsed = workingHours.EndNormal.Subtract(workingHours.StartNormal);
+                elapsed = GetEndNormal().Subtract(GetStartNormal());
                 salary += elapsed.TotalHours * 15;
-                elapsed = workingHours.EndExtra.Subtract(endTime);
+                elapsed = GetEndExtra().Subtract(endTime);
                 salary += elapsed.TotalHours * 20;
             }
             if (!isDayWeek && morethanEight)
             {
-                elapsed = workingHours.EndNight.Subtract(startTime);
+                elapsed = GetEndNight().Subtract(startTime);
                 salary += elapsed.TotalHours * 30;
-                elapsed = workingHours.EndNormal.Subtract(workingHours.StartNormal);
+                elapsed = GetEndNormal().Subtract(GetStartNormal());
                 salary += elapsed.TotalHours * 20;
-                elapsed = workingHours.EndExtra.Subtract(endTime);
+                elapsed = GetEndExtra().Subtract(endTime);
                 salary += elapsed.TotalHours * 25;
             }
             if (isDayWeek && normalAndNight)
             {
-                elapsed = workingHours.EndNight.Subtract(startTime);
+                elapsed = GetEndNight().Subtract(startTime);
                 salary += elapsed.TotalHours * 25;
-                elapsed = workingHours.EndNormal.Subtract(endTime);
+                elapsed = GetEndNormal().Subtract(endTime);
                 salary += elapsed.TotalHours * 15;
 
             }
             if (!isDayWeek && normalAndNight)
             {
-                elapsed = workingHours.EndNight.Subtract(startTime);
+                elapsed = GetEndNight().Subtract(startTime);
                 salary += elapsed.TotalHours * 30;
-                elapsed = workingHours.EndNormal.Subtract(endTime);
+                elapsed = GetEndNormal().Subtract(endTime);
                 salary += elapsed.TotalHours * 20;
 
             }
             if (isDayWeek && normalAndExtra)
             {
-                elapsed = workingHours.EndNormal.Subtract(startTime);
+                elapsed = GetEndNormal().Subtract(startTime);
                 salary += elapsed.TotalHours * 15;
-                elapsed = workingHours.EndExtra.Subtract(endTime);
+                elapsed = GetEndExtra().Subtract(endTime);
                 salary += elapsed.TotalHours * 20;
             }
             if (!isDayWeek && normalAndExtra)
             {
-                elapsed = workingHours.EndNormal.Subtract(startTime);
+                elapsed = GetEndNormal().Subtract(startTime);
                 salary += elapsed.TotalHours * 20;
-                elapsed = workingHours.EndExtra.Subtract(endTime);
+                elapsed = GetEndExtra().Subtract(endTime);
                 salary += elapsed.TotalHours * 15;
             }
             return Math.Round(salary,2);

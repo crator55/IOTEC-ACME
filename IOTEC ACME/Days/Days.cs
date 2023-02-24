@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IOTEC_ACME
 {
-    public class Days:IDays
+    public class Days:WorkingHours,IDays
     {
         public List<string> GetlistDaysWeeks()
         {

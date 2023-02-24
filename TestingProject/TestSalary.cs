@@ -2,8 +2,17 @@ using IOTEC_ACME;
 
 namespace TestingProject
 {
-    public class TestSalary
+    public class TestSalary:Salary
     {
+        private readonly Helper Helper=new();
+        [Fact]
+        public void GetHourSalary_String_More_or_Equal_5_Records_ReturnsString()
+        {
+            Salary acme = new();
+            var response = acme.GetDataFromFile(Helper.Path);
+            Assert.True( response.Length>=5);
+        }
+
         [Fact]
         public void GetHourSalary_String_First_Empoyee_ReturnsString()
         {
@@ -149,11 +158,12 @@ namespace TestingProject
         }
 
         [Fact]
-        public void GetDataFromFile_GetData_ReturnString()
+        public void GetDataFromFile_GetData_Less_than5_ReturnString()
         {
             Salary acme = new();
-            var response = acme.GetDataFromFile(Helper.Path);
-            Assert.NotEqual(string.Empty, response);
+            var response = acme.GetHourSalary();
+            Assert.Equal(Helper.LessThan5, response.FirstOrDefault());
         }
+
     }
 }
